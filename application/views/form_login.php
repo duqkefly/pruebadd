@@ -18,7 +18,7 @@
                     <span id="msje-2"></span>
                 </div>                
                 <div class="form-group">
-                    <input type="text" name="token" class="form-control" id="token">
+                    <input type="hidden" name="token" class="form-control" id="token">
                 </div>
                 <button type="submit" class="btn btn-primary">Ingresar</button>
             </form>

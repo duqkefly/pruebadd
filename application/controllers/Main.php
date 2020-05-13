@@ -32,11 +32,10 @@ class Main extends CI_Controller {
 	 */
 	public function login($credentials){
 		//print_r($credentials['email']);
-		if($credentials['email'] != "" || $credentials['password'] != ""){
-			echo 'false';
+		if($credentials['email'] == "" || $credentials['password'] == ""){
+			echo false;
 		}else{
 			$login = $this->Users_model->login($credentials['email'] , $credentials['password']);
-			//print_r($login['is_admin']);
 			if(is_array($login)){
 				if(preg_match("/^(?=.*?[A-Z])(?=(.*[a-z]){1,})(?=(.*[\d]){1,})(?=(.*[\W]){1,})(?!.*\s).{8,}$/",$credentials['password'])){
 					if($login['is_admin'] == 1){
@@ -49,7 +48,7 @@ class Main extends CI_Controller {
 				}				
 			}else{
 				echo false; //not logged
-			}		
+			}
 		}
 	}
 
