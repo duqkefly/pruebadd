@@ -8,6 +8,12 @@ var msje2      = document.querySelector("#msje-2");
 var email      = document.querySelector("#email");
 var password   = document.querySelector("#password");
 
+grecaptcha.ready(function() {
+    grecaptcha.execute('6Lfv6_YUAAAAAEjFYb_B8-EuZ71o3SzDcMibLPEn', {action: 'subscribe_newsletter'}).then(function(token) {
+        myForm.elements[2].value = token;
+    });;
+});
+
 /**
  * Reseteo del Input al dar click
  */
@@ -58,60 +64,56 @@ myForm.addEventListener("submit",(e)=>{
         msje.classList.add("alert-danger");                       
         msje.innerHTML = "Ingrese toda la Informacion requerida";
     }else{
-        grecaptcha.ready(function() {
-            grecaptcha.execute('6LfWuOEUAAAAAGoJWPYMmIi3H47-jNT9-5_lqwFC', {action: 'form_sended'}).then(function(token) {
-                myForm.elements[2].value = token;
-                var formData = new FormData(myForm);
-                xhr = new XMLHttpRequest();
-                xhr.onreadystatechange = function() {
-                    if(xhr.readyState === 3){
-                        console.log('authentication process...');
-                    }
-                    if (xhr.readyState === 4 && xhr.status === 200) {
-                        respuesta = xhr.response;
-                        console.log(respuesta);
-                        if(respuesta == '1'){
-                            msje.style.visibility = "visible";
-                            msje.classList.remove("alert-danger");
-                            msje.classList.add("alert-success");
-                            msje.innerHTML = "Login admin exitoso";    
-                            setTimeout(()=>{
-                                window.location = "main/succesfull_admin_login";
-                            }, 1500);
-                        }else if(respuesta == '2'){
-                            msje.style.visibility = "visible";
-                            msje.classList.remove("alert-danger");
-                            msje.classList.add("alert-success");
-                            msje.innerHTML = "Login de Usuario exitoso";     
-                            setTimeout(()=>{
-                                window.location = "main/succesfull_user_login";
-                            }, 1500);
-                        }else if(respuesta == '3'){
-                            msje.style.visibility = "visible";
-                            msje.classList.remove("alert-danger");
-                            msje.classList.remove("alert-success");
-                            msje.classList.add("alert-warning");
-                            msje.innerHTML = "Debes actualizar tu password";    
-                            setTimeout(()=>{
-                                window.location = "main/updatePassword";
-                            }, 1500);
-                        }else{                       
-                            msje.style.visibility = "visible";
-                            msje.classList.remove("alert-success");
-                            msje.classList.add("alert-danger");                       
-                            msje.innerHTML = "Login no exitoso, verifique su informacion";
-                            setTimeout(()=>{
-                                window.location = "main";
-                            }, 2000);
-                        }
-                    }
+        var formData = new FormData(myForm);
+        xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function() {
+            if(xhr.readyState === 3){
+                console.log(formData);
+            }
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                respuesta = xhr.response;
+                console.log(respuesta);
+                if(respuesta == '1'){
+                    msje.style.visibility = "visible";
+                    msje.classList.remove("alert-danger");
+                    msje.classList.add("alert-success");
+                    msje.innerHTML = "Login admin exitoso";    
+                    setTimeout(()=>{
+                        window.location = "main/succesfull_admin_login";
+                    }, 1500);
+                }else if(respuesta == '2'){
+                    msje.style.visibility = "visible";
+                    msje.classList.remove("alert-danger");
+                    msje.classList.add("alert-success");
+                    msje.innerHTML = "Login de Usuario exitoso";     
+                    setTimeout(()=>{
+                        window.location = "main/succesfull_user_login";
+                    }, 1500);
+                }else if(respuesta == '3'){
+                    msje.style.visibility = "visible";
+                    msje.classList.remove("alert-danger");
+                    msje.classList.remove("alert-success");
+                    msje.classList.add("alert-warning");
+                    msje.innerHTML = "Debes actualizar tu password";    
+                    setTimeout(()=>{
+                        window.location = "main/updatePassword";
+                    }, 1500);
+                }else{                       
+                    msje.style.visibility = "visible";
+                    msje.classList.remove("alert-success");
+                    msje.classList.add("alert-danger");                       
+                    msje.innerHTML = "Login no exitoso, verifique su informacion";
+                    setTimeout(()=>{
+                        window.location = "main";
+                    }, 2000);
                 }
-                xhr.open("POST","main/recaptcha",true);
-                xhr.send(formData);
-                msje1.style.visibility  = "hidden";      
-                msje2.style.visibility = "hidden";                
-                myForm.reset();
-            });
-        });
+            }
+        }
+        xhr.open("POST","main/recaptcha",true);
+        xhr.send(formData);
+        msje1.style.visibility  = "hidden";      
+        msje2.style.visibility = "hidden";                
+        myForm.reset();
+         
     }
 });
