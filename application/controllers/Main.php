@@ -2,12 +2,17 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Main extends CI_Controller {
+
+	public function __construct(){
+        parent::__construct();			
+        $this->load->model('Tienda_model');
+    }
 	
 	public function index()
 	{
         $data['title'] = 'Prueba';
 		$data['subview'] = $this->load->view('form_login','', TRUE);
-		$this->load->view('template/main',$data);		
+		$this->load->view('templates/main',$data);		
 	}
 	
 	public function recaptcha(){
@@ -36,7 +41,10 @@ class Main extends CI_Controller {
 			echo false;
 		}else{
 			$login = $this->Users_model->login($credentials['email'] , $credentials['password']);
+			//print_r($login);
 			if(is_array($login)){
+				$this->session->set_userdata($login);
+				$this->session->set_userdata(array('logged_in' => true));
 				if(preg_match("/^(?=.*?[A-Z])(?=(.*[a-z]){1,})(?=(.*[\d]){1,})(?=(.*[\W]){1,})(?!.*\s).{8,}$/",$credentials['password'])){
 					if($login['is_admin'] == 1){
 						echo true; //admin panel
@@ -44,10 +52,11 @@ class Main extends CI_Controller {
 						echo 2; //user panel
 					}
 				}else{
-					echo 3; //update password panel
+					echo 3; //Redirecciones si fueren necesarias
 				}				
 			}else{
 				echo false; //not logged
+				$this->session->sess_destroy(); //Destruccion de sesion en caso de not login
 			}
 		}
 	}
@@ -56,7 +65,14 @@ class Main extends CI_Controller {
 	 * redireccion a panel de Admin
 	 */
 	public function succesfull_admin_login(){
-		echo "admin exitoso";
+		$tienda = $this->Tienda_model->getAll();
+		$data['title'] = 'Panel Admin';
+		$content_data= [
+						 'user' => $this->session->userdata(),
+						 'tienda' => $tienda
+		];
+		$data['subview'] = $this->load->view('admin/main',$content_data, TRUE);
+		$this->load->view('templates/admin',$data);
 	}
 
 	/**
@@ -71,6 +87,12 @@ class Main extends CI_Controller {
 	 */
 	public function updatePassword(){ 
 		echo "redireccion a update password";
+	}
+
+	public function kill_session(){
+		$this->session->sess_destroy();
+		redirect(base_url());
+
 	}
 
 	
