@@ -10,6 +10,7 @@ class Main extends CI_Controller {
 	
 	public function index()
 	{
+		$this->session->sess_destroy();
         $data['title'] = 'Prueba';
 		$data['subview'] = $this->load->view('form_login','', TRUE);
 		$this->load->view('templates/main',$data);		
@@ -65,14 +66,20 @@ class Main extends CI_Controller {
 	 * redireccion a panel de Admin
 	 */
 	public function succesfull_admin_login(){
-		$tienda = $this->Tienda_model->getAll();
-		$data['title'] = 'Panel Admin';
-		$content_data= [
-						 'user' => $this->session->userdata(),
-						 'tienda' => $tienda
-		];
-		$data['subview'] = $this->load->view('admin/main',$content_data, TRUE);
-		$this->load->view('templates/admin',$data);
+		if(isset($this->session->userdata) && ($this->session->userdata['is_admin'] == 1)){
+			$tienda = $this->Tienda_model->getAll();
+			$data['title'] = 'Panel Admin';
+			$content_data= [
+							'user' => $this->session->userdata(),
+							'tienda' => $tienda
+			];
+			$data['subview'] = $this->load->view('admin/main',$content_data, TRUE);
+			$this->load->view('templates/admin',$data);
+		}else{
+			$this->session->sess_destroy();
+			redirect(base_url());
+		}
+		
 	}
 
 	/**

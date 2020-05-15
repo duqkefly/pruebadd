@@ -34,4 +34,25 @@ class Tienda_model extends CI_Model {
         }
         return $results;
     }
+
+    function addTienda($data){
+        if ($data) {
+            $sql = "INSERT INTO tienda (nombre, email, phone, descripcion, create_date) VALUES (
+                {$this->db->escape($data['nombre'])},
+                {$this->db->escape($data['email'])},
+                {$this->db->escape($data['phone'])},
+                {$this->db->escape($data['descripcion'])},
+                {$this->db->escape($data['create_date'])}
+            )";
+
+
+            $this->db->query($sql);
+
+            if ($id = $this->db->insert_id()) {
+                return $id;
+            }
+        }
+
+        return FALSE;
+    }
 }
