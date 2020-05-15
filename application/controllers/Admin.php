@@ -5,7 +5,7 @@ class Admin extends CI_Controller {
 
 	public function __construct(){
         parent::__construct();			
-        $this->load->model('Tienda_model');
+        //$this->load->model('Tienda_model');
     }
 
     public function addTienda(){
@@ -31,4 +31,26 @@ class Admin extends CI_Controller {
 			redirect(base_url());
         }        
     }
+
+    public function addProducto(){
+        $id_tienda = $this->uri->segment(3);
+        $data['title'] = 'Panel Admin';
+        $content_data= [
+                        'user' => $this->session->userdata(),
+                        'id_tienda' => $id_tienda,
+        ];
+        $data['subview'] = $this->load->view('admin/add_producto',$content_data, TRUE);
+        $this->load->view('templates/admin',$data);
+
+    }
+
+    public function contarProductos(){
+        $id_tienda = $this->input->post('id_tienda');
+        $cantProductos = count($this->Producto_model->countProducts($id_tienda));
+        
+
+
+		echo json_encode($cantProductos);
+
+	}
 }

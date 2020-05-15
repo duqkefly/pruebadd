@@ -4,7 +4,7 @@ class Tienda_model extends CI_Model {
 
     function __construct(){
         parent::__construct();			
-        $this->_db = 'tienda'; // Inicializo propiedad users como tabla de este model
+        $this->_db = 'tienda'; // Inicializo propiedad tienda como tabla de este model
     }
 
     /**
