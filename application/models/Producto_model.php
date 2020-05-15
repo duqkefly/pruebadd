@@ -7,7 +7,7 @@ class Producto_model extends CI_Model {
         $this->_db = 'producto'; // Inicializo propiedad producto como tabla de este model
     }   
 
-    function countProducts($id_tienda){
+    function productsByIdTienda($id_tienda){
         $sql = "SELECT * FROM producto WHERE id_tienda = $id_tienda";
         $query = $this->db->query($sql);
         if ($query->num_rows() > 0) {

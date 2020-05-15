@@ -31,26 +31,65 @@ class Admin extends CI_Controller {
 			redirect(base_url());
         }        
     }
-
-    public function addProducto(){
-        $id_tienda = $this->uri->segment(3);
-        $data['title'] = 'Panel Admin';
-        $content_data= [
-                        'user' => $this->session->userdata(),
-                        'id_tienda' => $id_tienda,
-        ];
-        $data['subview'] = $this->load->view('admin/add_producto',$content_data, TRUE);
-        $this->load->view('templates/admin',$data);
-
-    }
-
+    
     public function contarProductos(){
         $id_tienda = $this->input->post('id_tienda');
-        $cantProductos = count($this->Producto_model->countProducts($id_tienda));
+        $products = $this->Producto_model->productsByIdTienda($id_tienda);
+        
+        if($products != null){
+            $last_id = array_key_last($products);
+
+        }else{
+            $last_id = -1;
+
+        }
+
+        echo json_encode($last_id);
+    }
+
+    public function addProducto(){
+        print_r($_FILES);
+        $data = [
+                    'id_tienda'     => $this->input->post('id_tienda'),
+                    'nombre'        => $this->input->post('nombre2'),
+                    'sku'           => $this->input->post('sku'),
+                    'descripcion'   => $this->input->post('descripcion2'),
+                    'valor'         => $this->input->post('valor')
+
+        ];
+        
+        //$usuario = (Object)$this->session->userdata['current_user'];       
+        
+        $config['upload_path']    ='./assets/images';
+        $config['file_name']      = $data['sku'];
+        $config['allowed_types']  = 'jpg|jpeg|png|pdf';
+        $config['overwrite']     = true;
+        $config['max_size']      = 6000;
+        $this->load->library('upload', $config);
         
 
+        if ( ! $this->upload->do_upload('imagen'))
+        {
+            $error = array('error' => $this->upload->display_errors());
+            $this->session->set_flashdata('error','Verifique: (1) Cargar Todos los documentos (2) Archivos permitidos .png|.jpg|.jpeg|pdf');
+            print_r($error);
+        }
+        else
+        {
+            $data = array('upload_data' => $this->upload->data());
+            $filename = $data['upload_data']['file_name'];
 
-		echo json_encode($cantProductos);
 
-	}
+            
+
+
+
+
+            $this->session->set_flashdata('success','Su producto ha sido guardado exitosamente.');
+            //$this->load->view('upload_success', $data);
+        }
+        redirect(base_url('main/succesfull_admin_login'));
+
+    }
+    
 }

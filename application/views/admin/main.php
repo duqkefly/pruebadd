@@ -3,6 +3,9 @@
     <?php if(isset($this->session->success)): ?>
         <div class="alert alert-success" role="alert"><?= $this->session->success;?></div>
     <?php endif; ?>
+    <?php if(isset($this->session->error)): ?>
+        <div class="alert alert-danger" role="alert"><?= $this->session->error;?></div>
+    <?php endif; ?>
         <div class="row">
             <div class="col col-6"><h4>Tiendas</h4></div>
             <div class="col col-6"><button class=" btn btn-warning float-right pt-1 m-2 btn-sm" data-toggle="modal" data-target="#tiendaModal">Añadir Tienda <i class="fa fa-caret-right"></i></button></div>
@@ -107,7 +110,7 @@
                     <div id="info2" class="alert alert-danger" role="alert" style="display: none;">--</div>
                 </div>
             </div>
-            <form id="productoForm" action="<?php echo base_url();?>admin/addProducto" method="POST" name="productoForm">
+            <form id="productoForm" action="<?php echo base_url();?>admin/addProducto" method="POST" name="productoForm" enctype="multipart/form-data">
                 <input type="hidden" id="id_tienda" name="id_tienda">
                 <div class="modal-body">                    
                     <div class="form-group">
@@ -155,7 +158,10 @@
         })
             .then(res => res.json())
             .then(response =>{
-                console.log(response);
+                var contProductos = response +2;
+                var codigoGenerado = "t"+(id_tienda)+"_00"+contProductos;
+                $('#sku').val(codigoGenerado);
+                $('#sku').attr('readonly', true);
             })
     }
 </script>
