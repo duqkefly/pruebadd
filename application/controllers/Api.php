@@ -14,21 +14,43 @@ class Api extends REST_Controller{
         $id_producto = $this->uri->segment(2);
         $productos = $this->Producto_model->productsByIdTienda($id_producto);
         if($productos != null){
-            $this->response($productos, 200);
+            $this->response([$productos,'accion' => $this->success_log()], 200);
         }else
         {
             // Set the response and exit
             $this->response( [
                 'status' => false,
-                'message' => 'No hay productos'
+                'message' => 'No hay productos',
+                'accion' => $this->error_log()
             ], 404 );
         }
+
+        /* if($this->response['status'] == 200){
+            $objfecha = new date();
+            $fecha = $objfecha->format('Y-m-d-H-i-s');
+            $doc_log = fopen('writed_logs.txt','w');
+            fwrite($doc_log,"Conexión exitosa -- ".$fecha."\r\n");
+            fclose($doc_log);
+
+        }  */ 
         
     }
+    function error_log(){
+        $objfecha = new DateTime();
+        $fecha = $objfecha->format('Y-m-d-H-i-s');
+        $doc_log = fopen('writed_logs.txt','a');
+        fwrite($doc_log,"Conexión Fallida  -- ".$fecha." -- status '400'\r\n");
+        fclose($doc_log);
+        return 'error';
+    }
 
-    /* function index_post($id = ''){
-        $id_producto = $this->uri->segment(2);
-        $productos = $this->Producto_model->productsByIdTienda($id_producto);
-        $this->response($productos, 200);
-    } */
+    function success_log(){
+        $objfecha = new DateTime();
+        $fecha = $objfecha->format('Y-m-d-H-i-s');
+        $doc_log = fopen('writed_logs.txt','a');
+        fwrite($doc_log,"Conexión Exitosa  -- ".$fecha." -- status '200'\r\n");
+        fclose($doc_log);
+        return 'success';
+    }
+
 }
