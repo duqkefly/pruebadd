@@ -7,15 +7,19 @@ class Producto_model extends CI_Model {
         $this->_db = 'producto'; // Inicializo propiedad producto como tabla de este model
     }   
 
-    function productsByIdTienda($id_tienda){
-        $sql = "SELECT * FROM producto WHERE id_tienda = $id_tienda";
-        $query = $this->db->query($sql);
-        if ($query->num_rows() > 0) {
-            $results = $query->result_array();
-        } else {
-            $results = NULL;
-        }
-        return $results;
+    function productsByIdTienda($id_tienda = null){
+        if($id_tienda != null){
+            $sql = "SELECT * FROM producto WHERE id_tienda = $id_tienda";
+            $query = $this->db->query($sql);
+            if ($query->num_rows() > 0) {
+                $results = $query->result_array();
+            } else {
+                $results = NULL;
+            }
+            return $results;
+        }else{
+            return null;
+        }        
     }
 
     function productById($id_producto){
