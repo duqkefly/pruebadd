@@ -18,6 +18,17 @@ class Producto_model extends CI_Model {
         return $results;
     }
 
+    function productById($id_producto){
+        $sql = "SELECT * FROM producto WHERE id = $id_producto";
+        $query = $this->db->query($sql);
+        if ($query->num_rows() > 0) {
+            $results = $query->row_array();
+        } else {
+            $results = NULL;
+        }
+        return $results;
+    }
+
     /**
 	 * Obtener todos
 	 */

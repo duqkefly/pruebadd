@@ -105,11 +105,6 @@
                     <div id="info2" class="alert alert-danger" role="alert" style="display: none;">--</div>
                 </div>
             </div>
-            <div class="row">
-                <div class="col col-10 mx-auto mt-2" >
-                    <div id="info2" class="alert alert-danger" role="alert" style="display: none;">--</div>
-                </div>
-            </div>
             <form id="productoForm" action="<?php echo base_url();?>admin/addProducto" method="POST" name="productoForm" enctype="multipart/form-data">
                 <input type="hidden" id="id_tienda" name="id_tienda">
                 <div class="modal-body">                    

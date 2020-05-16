@@ -3,16 +3,6 @@ var myForm2 = document.querySelector("#productoForm");
 var info   = document.querySelector("#info");
 var info2   = document.querySelector("#info2");
 
-/* var nombre      = myForm.elements[0];
-var email       = myForm.elements[1];
-var phone       = myForm.elements[2];
-var descripcion = myForm.elements[3]; */
-
-/* var nombre2 = myForm2.elements[1];
-var descripcion2 = myForm.elements[3];
-var valor = myForm.elements[4];
-var imagen = myForm.elements[5]; */
-
 mail_regex= /^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/;
 num_regex = /^[0-9]+$/;
 
