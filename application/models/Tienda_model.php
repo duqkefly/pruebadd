@@ -22,7 +22,7 @@ class Tienda_model extends CI_Model {
     }
 
      /**
-	 * Obtener Tienda por ID
+	 * Obtener todos
 	 */
     function getAll(){
         $sql = "SELECT * FROM tienda ORDER BY tienda.id ASC"; 
