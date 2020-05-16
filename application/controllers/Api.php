@@ -23,16 +23,7 @@ class Api extends REST_Controller{
                 'message' => 'No hay productos',
                 'accion' => $this->error_log()
             ], 404 );
-        }
-
-        /* if($this->response['status'] == 200){
-            $objfecha = new date();
-            $fecha = $objfecha->format('Y-m-d-H-i-s');
-            $doc_log = fopen('writed_logs.txt','w');
-            fwrite($doc_log,"Conexión exitosa -- ".$fecha."\r\n");
-            fclose($doc_log);
-
-        }  */ 
+        } 
         
     }
     function error_log(){
