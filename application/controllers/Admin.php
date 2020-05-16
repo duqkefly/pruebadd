@@ -122,7 +122,9 @@ class Admin extends CI_Controller {
 
     function updateProducto(){
         //print_r($_FILES);
+        $actImg = 0;
         $producto = [
+            'id_producto'   => $this->input->post('id_producto'),
             'id_tienda'     => $this->input->post('id_tienda'),
             'nombre'        => $this->input->post('nombre'),
             'sku'           => $this->input->post('sku'),
@@ -130,44 +132,46 @@ class Admin extends CI_Controller {
             'valor'         => $this->input->post('valor')
         ];
 
+        //print_r($producto);die();
+
        if($_FILES['imagen']['size']>0){
-           echo "Hay imagen";
-       }else{
-           echo "No Imagen";
+            $config['upload_path']    ='./assets/images';
+            $config['file_name']      = $producto['sku'];
+            $config['allowed_types']  = 'jpg|jpeg|png|pdf';
+            $config['overwrite']     = true;
+            $config['max_size']      = 6000;
+            $this->load->library('upload', $config);
+
+
+            if ( ! $this->upload->do_upload('imagen'))
+            {
+                $error = array('error' => $this->upload->display_errors());
+                $this->session->set_flashdata('error','Verifique: (1) Cargar Todos los documentos (2) Archivos permitidos .png|.jpg|.jpeg|pdf');
+                //print_r($error);
+            }
+            else
+            {
+                $data = array('upload_data' => $this->upload->data());
+                $filename = $data['upload_data']['file_name'];
+                $producto['imagen'] = $filename;
+                $actImg = 1; // Variable de control update de imagen
+            }
        }
 
-        //$usuario = (Object)$this->session->userdata['current_user'];       
+       if(!isset($error)){
+           $act = $this->Producto_model->updateProducto($producto);
 
-        /* $config['upload_path']    ='./assets/images';
-        $config['file_name']      = $producto['sku'];
-        $config['allowed_types']  = 'jpg|jpeg|png|pdf';
-        $config['overwrite']     = true;
-        $config['max_size']      = 6000;
-        $this->load->library('upload', $config);
+           if($act || $actImg == 1){
+               $this->session->set_flashdata('success','Producto actualizado');
+           }else{
+                $this->session->set_flashdata('error','Producto no actualizado, al parecer no ingresaste ningun dato diferente');
+           }
+           
 
+       }
+       redirect(base_url('admin/listar_productos'));
 
-        if ( ! $this->upload->do_upload('imagen'))
-        {
-        $error = array('error' => $this->upload->display_errors());
-        $this->session->set_flashdata('error','Verifique: (1) Cargar Todos los documentos (2) Archivos permitidos .png|.jpg|.jpeg|pdf');
-        print_r($error);
-        }
-        else
-        {
-        $data = array('upload_data' => $this->upload->data());
-        $filename = $data['upload_data']['file_name'];
-        $producto['imagen'] = $filename;
-
-        $add = $this->Producto_model->addProducto($producto);
-
-        if($add != false){
-            $this->session->set_flashdata('success','Su producto ha sido guardado exitosamente. Podrá listarlos en el menu de opciones');
-        }else{
-            $this->session->set_flashdata('error','Oops. Al parecer algo ha salido mal y no se ha guardado la información correctamente, intenta de nuevo.');
-        }
-        }
-        redirect(base_url('main/succesfull_admin_login')); */
-        //print_r($producto);
+       
     }
     
 }

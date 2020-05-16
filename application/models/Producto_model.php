@@ -65,4 +65,25 @@ class Producto_model extends CI_Model {
         return FALSE;
     }
 
+    function updateProducto($producto){
+        $sql = "
+                    UPDATE {$this->_db} SET
+                        nombre = " . $this->db->escape($producto['nombre']) . ",
+                        descripcion = " . $this->db->escape($producto['descripcion']) . ",
+                        valor = " . $this->db->escape($producto['valor']) . "                    
+                ";
+        if(isset($producto['imagen'])){
+            $sql .= ",imagen =".$this->db->escape($producto['imagen']);
+        }
+
+        $sql .= "WHERE id = " . $this->db->escape($producto['id_producto']);
+        $this->db->query($sql);
+        if ($this->db->affected_rows())
+        {
+            return TRUE;
+        }
+            
+        return FALSE;
+    }
+
 }

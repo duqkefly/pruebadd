@@ -92,7 +92,8 @@
                     <div class="form-group">
                         <label for="imagen">Imagen</label>
                         <input type="file" class="form-control" id="imagen" name="imagen" placeholder="Imagen del producto">
-                    </div> 
+                    </div>
+                    <input type="hidden" class="form-control" id="id_producto" name="id_producto">
 
                 </div>
                 <div class="modal-footer">
@@ -122,6 +123,7 @@
                 $('#sku').val(producto['sku']);
                 $('#descripcion').val(producto['descripcion']);
                 $('#valor').val(producto['valor']);
+                $('#id_producto').val(id_producto);
             })
     }
 </script>
