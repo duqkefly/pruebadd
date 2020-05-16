@@ -1,3 +1,4 @@
+<?php if(isset($productos)):?>
 <div class="row mt-4">
     <div class="col-8 mx-auto">
     <?php if(isset($this->session->success)): ?>
@@ -41,7 +42,7 @@
                             </i>
                             Modificar
                         </button>
-                        <button type="button" name="btn-del" class="btn btn-sm btn-addon btn-danger waves-effect ml-1" data-target="#productoModal" onclick="showForm2(1)">
+                        <button type="button" name="btn-del" class="btn btn-sm btn-addon btn-danger waves-effect ml-1" data-target="#delProducto" onclick="showForm2(<?= $p['id'];?>)">
                             <i class="fa fa-trash-alt mr-2"></i>
                             Eliminar 
                         </button>
@@ -54,7 +55,7 @@
 </div>
 
 
-<!-- Modal producto -->
+<!-- Modal actualizar producto -->
 <div class="modal fade" id="actProducto" tabindex="-1" role="dialog" aria-labelledby="actProductoLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -105,6 +106,36 @@
     </div>
 </div>
 
+<!-- Modal eliminar producto -->
+<div class="modal fade" id="delProducto" tabindex="-1" role="dialog" aria-labelledby="delProductoLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="delProductoLabel">Eliminar Producto</h5>
+                
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>            
+            <div class="row">
+                <div class="col col-10 mx-auto mt-2" >
+                    <div id="info" class="alert alert-danger" role="alert" style="display: none;">--</div>
+                </div>
+            </div>
+            <form id="productoForm" action="<?php echo base_url();?>admin/delProducto" method="POST" name="productoForm" enctype="multipart/form-data">
+                <input type="hidden" id="id_tienda" name="id_tienda">
+                <div class="modal-body">
+                    <div><small class="text-danger"> Tenga cuidado. Este proceso no es reversible</small></div>
+                    <input type="hidden" class="form-control" id="id_producto2" name="id_producto2">
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" id="btn2" name="btn2" class="btn btn-danger">Borrar Producto</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>                                 
+                </div>
+            </form>  
+        </div>
+    </div>
+</div>
 <script>
     function showForm(id_producto) {
         var url = '<?php echo base_url();?>admin/getProductById';
@@ -126,4 +157,16 @@
                 $('#id_producto').val(id_producto);
             })
     }
+
+    function showForm2(id_producto) {
+        var url = '<?php echo base_url();?>admin/getProductById';
+        $('#id_producto2').val(id_producto);
+        $('#delProducto').modal('show')
+    }
 </script>
+
+<?php else: ?>
+    <div class="alert alert-danger mt-5" role="alert">
+        <span class="mx-auto">Aun no se han cargado productos</span>
+    </div>
+<?php endif; ?>

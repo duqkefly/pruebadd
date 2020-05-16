@@ -68,13 +68,22 @@ class Main extends CI_Controller {
 	public function succesfull_admin_login(){
 		if(isset($this->session->userdata) && ($this->session->userdata['is_admin'] == 1)){
 			$tienda = $this->Tienda_model->getAll();
-			$data['title'] = 'Panel Admin';
-			$content_data= [
-							'user' => $this->session->userdata(),
-							'tienda' => $tienda
-			];
-			$data['subview'] = $this->load->view('admin/main',$content_data, TRUE);
-			$this->load->view('templates/admin',$data);
+			if($tienda != null){
+				$data['title'] = 'Panel Admin';
+				$content_data= [
+								'user' => $this->session->userdata(),
+								'tienda' => $tienda
+				];
+				$data['subview'] = $this->load->view('admin/main',$content_data, TRUE);
+				$this->load->view('templates/admin',$data);
+			}else{
+				$data['title'] = 'Agregar Tienda';
+				$content_data= [
+					'user' => $this->session->userdata()
+				];
+				$data['subview'] = $this->load->view('admin/addTienda',$content_data, TRUE);
+				$this->load->view('templates/addTiendas',$data);
+			}			
 		}else{
 			$this->session->sess_destroy();
 			redirect(base_url());

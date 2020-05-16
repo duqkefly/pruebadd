@@ -1,7 +1,5 @@
 var myForm  = document.querySelector("#tiendaForm");
-var myForm2 = document.querySelector("#productoForm");
 var info   = document.querySelector("#info");
-var info2   = document.querySelector("#info2");
 
 mail_regex= /^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/;
 num_regex = /^[0-9]+$/;
@@ -41,40 +39,4 @@ myForm.addEventListener("submit",(e)=>{
         info.innerHTML = "";
         myForm.submit();
     }
-})
-
-myForm2.addEventListener("submit",(e)=>{
-    e.preventDefault();
-    var block = false; //Control de paso del form
-
-    var nombre2      = myForm2.elements[1];
-    var descripcion2 = myForm2.elements[3];
-    var valor        = myForm2.elements[4];
-    var imagen       = myForm2.elements[5];    
-
-    if(nombre2.value == ''){
-        block = true;
-    }
-
-    if(descripcion2.value == ''){
-        block = true;
-    }
-
-    if(!float_regex.test(valor.value) || valor.value == ''){
-        block = true;
-    }
-
-    if(imagen.value == ''){
-        block = true;
-    }
-    
-    if(block == true){
-        info2.style.display = 'block';
-        info2.innerHTML = "Verifique llenar correctamente su información";
-    }else{
-        info2.style.display = 'none';
-        info2.innerHTML = "";
-        myForm2.submit();
-    }
-
 })

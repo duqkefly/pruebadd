@@ -86,4 +86,16 @@ class Producto_model extends CI_Model {
         return FALSE;
     }
 
+    function delProducto($id_producto){
+        $sql = "DELETE FROM producto WHERE producto.id = {$this->db->escape($id_producto)}";
+        $this->db->query($sql);
+        if ($this->db->affected_rows())
+        {
+            return TRUE;
+        }
+            
+        return FALSE;
+
+    }
+
 }

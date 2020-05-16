@@ -173,5 +173,16 @@ class Admin extends CI_Controller {
 
        
     }
+
+    function delProducto(){
+        $id_producto = $this->input->post('id_producto2');
+        $del = $this->Producto_model->delProducto($id_producto);
+        if($del){
+            $this->session->set_flashdata('success','Producto Eliminado exitosamente');
+        }else{
+            $this->session->set_flashdata('error','Oops. Al parecer algo ha salido mal y no se ha guardado la información correctamente, intenta de nuevo.');
+        }
+        redirect(base_url('admin/listar_productos'));
+    }
     
 }

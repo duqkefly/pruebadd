@@ -1,3 +1,4 @@
+<?php if(isset($tienda)):?>
 <div class="row mt-4">
     <div class="col-8 mx-auto">
     <?php if(isset($this->session->success)): ?>
@@ -36,7 +37,7 @@
                         <button type="button" name="btnp" class="btn btn-sm btn-addon btn-info waves-effect ml-1" data-target="#productoModal" onclick="showForm(<?php echo $t['id']; ?>)">
                             <i class="fa fa-plus">
                             </i>
-                            Agregar
+                            Producto
                         </button>
                     </td>
                 </tr>
@@ -160,3 +161,9 @@
             })
     }
 </script>
+
+<?php else: ?>
+    <div class="alert alert-danger mt-5" role="alert">
+        <span class="mx-auto">Aun no se han cargado Tiendas</span>
+    </div>
+<?php endif; ?>
