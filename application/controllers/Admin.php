@@ -42,18 +42,17 @@ class Admin extends CI_Controller {
         $products = $this->Producto_model->productsByIdTienda($id_tienda);
         
         if($products != null){
-            $last_id = array_key_last($products);
-
+            foreach ($products as $i => $p) {
+                $id = $p['id'];
+            }
         }else{
-            $last_id = -1;
-
+            $id = 0;
         }
-
-        echo json_encode($last_id);
+        echo json_encode($id);
     }
 
     public function addProducto(){
-        //print_r($_FILES);
+        
         $producto = [
                         'id_tienda'     => $this->input->post('id_tienda'),
                         'nombre'        => $this->input->post('nombre2'),
@@ -71,6 +70,8 @@ class Admin extends CI_Controller {
         $config['overwrite']     = true;
         $config['max_size']      = 6000;
         $this->load->library('upload', $config);
+
+        //print_r($config);die();
         
 
         if ( ! $this->upload->do_upload('imagen'))

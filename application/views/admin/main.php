@@ -154,8 +154,8 @@
         })
             .then(res => res.json())
             .then(response =>{
-                var contProductos = response +2;
-                var codigoGenerado = "t"+(id_tienda)+"_00"+contProductos;
+                var nextId = parseInt(response)+1;
+                var codigoGenerado = "t"+(id_tienda)+"_00"+nextId;                
                 $('#sku').val(codigoGenerado);
                 $('#sku').attr('readonly', true);
             })
