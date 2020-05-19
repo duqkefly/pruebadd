@@ -13,6 +13,10 @@ class Api extends REST_Controller{
     function index_get($id = ''){
         $id_producto = $this->uri->segment(2);
         $productos = $this->Producto_model->productsByIdTienda($id_producto);
+        $img = base64_encode(base_url().$productos[0]['id']);
+        unset($productos[0]['imagen']);
+        $productos[0]['imagen'] = $img;
+        
         if($productos != null){
             $this->response([$productos,'accion' => $this->success_log()], 200);
         }else
@@ -21,9 +25,10 @@ class Api extends REST_Controller{
             $this->response( [
                 'status' => false,
                 'message' => 'No hay productos',
+                'img' => $img,
                 'accion' => $this->error_log()
             ], 404 );
-        } 
+        }
         
     }
     function error_log(){
