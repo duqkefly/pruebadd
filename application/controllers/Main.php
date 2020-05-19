@@ -13,7 +13,7 @@ class Main extends CI_Controller {
 		$this->session->sess_destroy();
         $data['title'] = 'Prueba';
 		$data['subview'] = $this->load->view('form_login','', TRUE);
-		$this->load->view('templates/main',$data);		
+		$this->load->view('templates/main',$data);	
 	}
 	
 	public function recaptcha(){

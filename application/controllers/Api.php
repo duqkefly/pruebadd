@@ -13,7 +13,7 @@ class Api extends REST_Controller{
     function index_get($id = ''){
         $id_producto = $this->uri->segment(2);
         $productos = $this->Producto_model->productsByIdTienda($id_producto);
-        $img = base64_encode(base_url().$productos[0]['id']);
+        $img = base64_encode(base_url().'assets/images/'.$productos[0]['imagen']);
         unset($productos[0]['imagen']);
         $productos[0]['imagen'] = $img;
         
