@@ -16,9 +16,13 @@ class Api extends REST_Controller{
         
         
         if($productos != null){
-            $img = base64_encode(file_get_contents(base_url().'assets/images/'.$productos[0]['imagen']));
-            unset($productos[0]['imagen']);
-            $productos[0]['imagen'] = $img;
+
+            foreach ($productos as $id => $p) {
+                $img = base64_encode(file_get_contents(base_url().'assets/images/'.$p['imagen']));
+                unset($productos[$id]['imagen']);
+                $productos[$id]['imagen'] = $img;
+                
+            }
             $this->response([$productos,'accion' => $this->success_log()], 200);
         }else
         {
